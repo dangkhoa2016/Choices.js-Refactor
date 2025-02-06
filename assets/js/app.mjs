@@ -1,43 +1,47 @@
 // for simulating the fake response from the server, remove this line or comment it out to see the real response
 import './fake-response.mjs';
+// normal choices.js
+import './normal.mjs';
 
-const selectWithSearch1 = new ChoicesRemoteData('#select-pet1', {
+const onInit = function (choicesRemoteDataInstance, choicesInstance) {
+  choicesInstance.containerOuter.element.parentElement.querySelector('pre').innerText = JSON.stringify(options, null, 2);
+  window[choicesInstance.passedElement.element.id] = choicesRemoteDataInstance;
+};
+
+let options = {
   fetchUrl: '/home/pets',
   itemsPerPage: 10,
   minSearchLength: 1,
   loadDataOnStart: true,
-});
+  onInit: onInit
+}
+new ChoicesRemoteData('#select-pet1', options);
+new ChoicesRemoteData('#select-pet6', options);
+new ChoicesRemoteData('#select-pet-preselected2', options);
 
-const selectWithSearch2 = new ChoicesRemoteData('#select-pet2', {
-  fetchUrl: '/home/pets',
-  itemsPerPage: 5,
-  minSearchLength: 1,
-  loadDataOnStart: true,
-});
+options.itemsPerPage = 5;
+new ChoicesRemoteData('#select-pet2', options);
 
-const selectWithSearch3 = new ChoicesRemoteData('#select-pet3', {
-  fetchUrl: '/home/pets',
-  itemsPerPage: 10,
-  minSearchLength: 1,
-  loadDataOnStart: false,
-});
+options.itemsPerPage = 10;
+options.minSearchLength = 2;
+new ChoicesRemoteData('#select-pet-preselected1', options);
 
-const selectWithSearch4 = new ChoicesRemoteData('#select-pet4', {
-  fetchUrl: '/home/pets',
-  itemsPerPage: 10,
-  minSearchLength: 3,
-  loadDataOnStart: false,
-});
+options.loadDataOnStart = false;
+new ChoicesRemoteData('#select-pet3', options);
 
-const selectHoppy = new ChoicesRemoteData('#select-hobby', {
+options.itemsPerPage = 10;
+options.minSearchLength = 3;
+new ChoicesRemoteData('#select-pet4', options);
+
+
+options = {
   fetchUrl: '/home/pet-hobbies',
   disabled: true,
-  onInit: function (choicesRemoteDataInstance, choicesInstance) {
-    // console.log('Select hobby initialized', choicesRemoteDataInstance, choicesInstance);
-  },
-});
+  onInit: onInit
+}
+const selectHoppy = new ChoicesRemoteData('#select-hobby', options);
 
-const selectWithSearch5 = new ChoicesRemoteData('#select-pet5', {
+options = {
   fetchUrl: '/home/pets',
   onChange: function (item) {
     selectHoppy.clearSelection(true);
@@ -50,4 +54,6 @@ const selectWithSearch5 = new ChoicesRemoteData('#select-pet5', {
     selectHoppy.updateFetchUrl(`/home/pet-hobbies?pet=${item.value}`);
     selectHoppy.enableSelect();
   },
-});
+  onInit: onInit
+}
+new ChoicesRemoteData('#select-pet5', options);

@@ -13,6 +13,7 @@ Features
 * Support for custom events like `onChange` and `onInit`.
 * Methods to enable/disable the select dropdown, clear selections, and update the fetch URL.
 * Using Bootstrap 5 for styling and responsiveness.
+* Using Tailwind CSS for styling and responsiveness.
 
 Installation
 ------------
